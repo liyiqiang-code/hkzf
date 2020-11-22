@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from 'react'
+import { HashRouter, Route, Link, Redirect, Switch } from 'react-router-dom'
+import { Button, WhiteSpace, WingBlank } from 'antd-mobile';
+import Home from './pages/Home'
+import CityList from './pages/CityList'
+import NotFount from './pages/NotFount'
+export default class App extends Component {
+  render() {
+    return (
+      <div>
+        <HashRouter>
+          <Switch>
+            <Route path="/" exact render={() => <Redirect to="/home" />} />
+            <Route path="/home" component={Home} />
+            <Route path="/citylist" component={CityList} />
+            <Route path="*" exact component={NotFount} />
+          </Switch>
+        </HashRouter>
+      </div>
+    )
+  }
 }
-
-export default App;
