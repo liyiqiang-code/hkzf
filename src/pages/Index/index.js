@@ -25,12 +25,14 @@ export default class Index extends Component {
         news: [],
         imgHeight: 176,
     }
+
     componentDidMount() {
         this.getSwipers()
         this.getGroups()
         this.getNews()
     }
 
+    // 请求轮播图数据
     async getSwipers() {
         const res = await axios.get('http://localhost:8080/home/swiper')
         this.setState({
