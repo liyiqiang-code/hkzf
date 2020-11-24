@@ -29,6 +29,7 @@ export default class Home extends Component {
                     unselectedTintColor="#949494"
                     tintColor="#21b97a"
                     barTintColor="white"
+                    className="tabBar"
                 >
 
                     {arr.map((v, i, a) => (

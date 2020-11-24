@@ -12,10 +12,14 @@ import './index.scss'
 export default class Index extends Component {
     state = {
         swipers: [],
+        groups: [],
+        news: [],
         imgHeight: 176,
     }
     componentDidMount() {
         this.getSwipers()
+        this.getGroups()
+        this.getNews()
     }
 
     async getSwipers() {
@@ -23,6 +27,31 @@ export default class Index extends Component {
         this.setState({
             swipers: res.data.body
         })
+    }
+
+    //小组卡片请求
+    async getGroups() {
+        const res = await axios.get(`http://localhost:8080/home/groups`, {
+            params: {
+                area: 'AREA%7C88cff55c-aaa4-e2e0'
+            }
+        })
+        this.setState({
+            groups: res.data.body
+        })
+    }
+
+    //最新资讯请求
+    async getNews() {
+        const res = await axios.get('http://localhost:8080/home/news', {
+            params: {
+                area: 'AREA%7C88cff55c-aaa4-e2e0'
+            }
+        })
+        this.setState({
+            news: res.data.body
+        })
+
     }
 
     renderSwipers() {
@@ -70,35 +99,33 @@ export default class Index extends Component {
                 <div className="class">
                     <div className="classTop"><h3>租房小组</h3><span>更多</span></div>
                     <div className="classBottom">
-                        <div className="classBottomItem">
-                            <div>
-                                <h3>家住回龙观</h3>
-                                <p>归属的感觉</p>
+                        {this.state.groups.map((v, i, a) => (
+                            <div className="classBottomItem" key={i}>
+                                <div>
+                                    <h3>{v.title}</h3>
+                                    <p>{v.desc}</p>
+                                </div>
+                                <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
                             </div>
-                            <img src={nav1} alt="" />
-                        </div>
-                        <div className="classBottomItem">
-                            <div>
-                                <h3>家住回龙观</h3>
-                                <p>归属的感觉</p>
-                            </div>
-                            <img src={nav1} alt="" />
-                        </div>
-                        <div className="classBottomItem">
-                            <div>
-                                <h3>家住回龙观</h3>
-                                <p>归属的感觉</p>
-                            </div>
-                            <img src={nav1} alt="" />
-                        </div>
-                        <div className="classBottomItem">
-                            <div>
-                                <h3>家住回龙观</h3>
-                                <p>归属的感觉</p>
-                            </div>
-                            <img src={nav1} alt="" />
-                        </div>
+                        ))}
                     </div>
+                </div>
+
+                <div className="news">
+                    <h3>最新资讯</h3>
+                    {this.state.news.map((v, i, a) => (
+                        <div className="newsItem" key={i}>
+                            <div className="newsItemLeft">
+                                <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
+                            </div>
+                            <div className="newsItemRight">
+                                <div>{v.title}</div>
+                                <div className="detail">
+                                    <span>{v.from}</span><span>{v.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         )

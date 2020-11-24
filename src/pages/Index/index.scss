@@ -16,7 +16,7 @@
 .class {
     padding: 0 10px;
     margin-bottom: 10px;
-    height: 300px;
+    height: 240px;
 
     .classTop {
         display: flex;
@@ -41,11 +41,40 @@
             width: 140px;
             height: 85px;
             background-color: white;
-            margin-top: 10px;
 
             img {
                 width: 55px;
                 height: 60px;
+            }
+        }
+    }
+}
+
+//最新资讯
+.news {
+    padding: 0 10px;
+    height: 450px;
+
+    .newsItem {
+        height: 120px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #000;
+
+        img {
+            width: 120px;
+            height: 90px;
+        }
+
+        .newsItemRight {
+            font-weight: 700;
+
+            .detail {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+                color: gray;
             }
         }
     }
