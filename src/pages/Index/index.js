@@ -7,12 +7,21 @@ import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
 import './index.scss'
 
-
+// nav模块的数据
+const nav = [
+    { img: nav1, title: '整租', path: '/home/houselist' },
+    { img: nav2, title: '合租', path: '/home/houselist' },
+    { img: nav3, title: '地图找房', path: '/map' },
+    { img: nav4, title: '去出租', path: '/login' },
+]
 
 export default class Index extends Component {
     state = {
+        // 轮播图数据
         swipers: [],
+        // 租房小组数据
         groups: [],
+        // 最新资讯数据
         news: [],
         imgHeight: 176,
     }
@@ -54,6 +63,7 @@ export default class Index extends Component {
 
     }
 
+    // 轮播图模块
     renderSwipers() {
         if (this.state.swipers.length) {
             return <Carousel
@@ -85,9 +95,61 @@ export default class Index extends Component {
         }
     }
 
+    //nav模块
+    renderNav() {
+        return <Flex justify="around" className="nav">
+            {nav.map((v, i, a) => (
+                <Flex.Item key={i} onClick={this.handleJump.bind(this, v)}><img src={v.img} alt="" /> <div>{v.title}</div></Flex.Item>
+            ))}
+        </Flex>
+    }
+
+    //最新资讯模块
+    renderNews() {
+        return <div className="news">
+            <h3>最新资讯</h3>
+            {this.state.news.map((v, i, a) => (
+                <div className="newsItem" key={i}>
+                    <div className="newsItemLeft">
+                        <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
+                    </div>
+                    <div className="newsItemRight">
+                        <div>{v.title}</div>
+                        <div className="detail">
+                            <span>{v.from}</span><span>{v.date}</span>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    }
+
+    //租房小组模块
+    renderClass() {
+        return <div className="class">
+            <div className="classTop"><h3>租房小组</h3><span>更多</span></div>
+            <div className="classBottom">
+                {this.state.groups.map((v, i, a) => (
+                    <div className="classBottomItem" key={i}>
+                        <div>
+                            <h3>{v.title}</h3>
+                            <p>{v.desc}</p>
+                        </div>
+                        <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
+                    </div>
+                ))}
+            </div>
+        </div>
+    }
+
+    handleJump(v) {
+        this.props.history.push(v.path)
+    }
+
     render() {
         return (
             <div>
+                {/* 轮播图模块 */}
                 {this.renderSwipers()}
 
                 {/* 搜索框 */}
@@ -99,44 +161,15 @@ export default class Index extends Component {
                     <span className="iconfont icon-map map"></span>
                 </div>
 
-                <Flex justify="around" className="nav">
-                    <Flex.Item><img src={nav1} alt="" /> <div>整租</div></Flex.Item>
-                    <Flex.Item><img src={nav2} alt="" /> <div>合租</div></Flex.Item>
-                    <Flex.Item><img src={nav3} alt="" /><div>地图找房</div> </Flex.Item>
-                    <Flex.Item><img src={nav4} alt="" /> <div>去出租</div></Flex.Item>
-                </Flex>
-                {/* 租房小组 */}
-                <div className="class">
-                    <div className="classTop"><h3>租房小组</h3><span>更多</span></div>
-                    <div className="classBottom">
-                        {this.state.groups.map((v, i, a) => (
-                            <div className="classBottomItem" key={i}>
-                                <div>
-                                    <h3>{v.title}</h3>
-                                    <p>{v.desc}</p>
-                                </div>
-                                <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                {/* nav模块 */}
+                {this.renderNav()}
 
-                <div className="news">
-                    <h3>最新资讯</h3>
-                    {this.state.news.map((v, i, a) => (
-                        <div className="newsItem" key={i}>
-                            <div className="newsItemLeft">
-                                <img src={`http://localhost:8080${v.imgSrc}`} alt="" />
-                            </div>
-                            <div className="newsItemRight">
-                                <div>{v.title}</div>
-                                <div className="detail">
-                                    <span>{v.from}</span><span>{v.date}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                {/* 租房小组 */}
+                {this.renderClass()}
+
+                {/* 最新资讯模块 */}
+                {this.renderNews()}
+
             </div>
         )
     }
