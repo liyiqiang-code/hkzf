@@ -11,3 +11,42 @@
         width: 48px;
     }
 }
+
+// 租房小组
+.class {
+    padding: 0 10px;
+    margin-bottom: 10px;
+    height: 300px;
+
+    .classTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+    }
+
+    .classBottom {
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        height: 190px;
+        font-size: 12px;
+        margin-bottom: 10px;
+
+        .classBottomItem {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 140px;
+            height: 85px;
+            background-color: white;
+            margin-top: 10px;
+
+            img {
+                width: 55px;
+                height: 60px;
+            }
+        }
+    }
+}

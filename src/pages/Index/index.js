@@ -66,6 +66,40 @@ export default class Index extends Component {
                     <Flex.Item><img src={nav3} alt="" /><div>地图找房</div> </Flex.Item>
                     <Flex.Item><img src={nav4} alt="" /> <div>去出租</div></Flex.Item>
                 </Flex>
+                {/* 租房小组 */}
+                <div className="class">
+                    <div className="classTop"><h3>租房小组</h3><span>更多</span></div>
+                    <div className="classBottom">
+                        <div className="classBottomItem">
+                            <div>
+                                <h3>家住回龙观</h3>
+                                <p>归属的感觉</p>
+                            </div>
+                            <img src={nav1} alt="" />
+                        </div>
+                        <div className="classBottomItem">
+                            <div>
+                                <h3>家住回龙观</h3>
+                                <p>归属的感觉</p>
+                            </div>
+                            <img src={nav1} alt="" />
+                        </div>
+                        <div className="classBottomItem">
+                            <div>
+                                <h3>家住回龙观</h3>
+                                <p>归属的感觉</p>
+                            </div>
+                            <img src={nav1} alt="" />
+                        </div>
+                        <div className="classBottomItem">
+                            <div>
+                                <h3>家住回龙观</h3>
+                                <p>归属的感觉</p>
+                            </div>
+                            <img src={nav1} alt="" />
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
