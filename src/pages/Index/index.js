@@ -89,6 +89,16 @@ export default class Index extends Component {
         return (
             <div>
                 {this.renderSwipers()}
+
+                {/* 搜索框 */}
+                <div className="search-box">
+                    <div className="search"><span className="iconGZ">广州<span className="iconfont icon-arrow "></span></span>
+                        <i className="iconfont icon-seach"></i>
+                    请输入小区或地址
+                    </div>
+                    <span className="iconfont icon-map map"></span>
+                </div>
+
                 <Flex justify="around" className="nav">
                     <Flex.Item><img src={nav1} alt="" /> <div>整租</div></Flex.Item>
                     <Flex.Item><img src={nav2} alt="" /> <div>合租</div></Flex.Item>
