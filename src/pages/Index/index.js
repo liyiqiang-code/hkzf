@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
-import { Carousel } from 'antd-mobile';
+import { Carousel, Flex } from 'antd-mobile';
 import axios from 'axios'
+import nav1 from '../../assets/images/nav-1.png'
+import nav2 from '../../assets/images/nav-2.png'
+import nav3 from '../../assets/images/nav-3.png'
+import nav4 from '../../assets/images/nav-4.png'
+import './index.css'
 
 
 
@@ -19,6 +24,7 @@ export default class Index extends Component {
             swipers: res.data.body
         })
     }
+
     render() {
         return (
             <div>
@@ -46,6 +52,12 @@ export default class Index extends Component {
                         </a>
                     ))}
                 </Carousel> : null}
+                <Flex justify="around" className="nav">
+                    <Flex.Item><img src={nav1} alt="" /> <div>租房</div></Flex.Item>
+                    <Flex.Item><img src={nav2} alt="" /> <div>租房</div></Flex.Item>
+                    <Flex.Item><img src={nav3} alt="" /><div>租房</div> </Flex.Item>
+                    <Flex.Item><img src={nav4} alt="" /> <div>租房</div></Flex.Item>
+                </Flex>
             </div>
         )
     }
