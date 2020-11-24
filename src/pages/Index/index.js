@@ -5,7 +5,7 @@ import nav1 from '../../assets/images/nav-1.png'
 import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
-import './index.css'
+import './index.scss'
 
 
 
@@ -25,38 +25,46 @@ export default class Index extends Component {
         })
     }
 
+    renderSwipers() {
+        if (this.state.swipers.length) {
+            return <Carousel
+                autoplay={true}
+                infinite={true}
+                autoplayInterval={1000}
+            >
+                {this.state.swipers.map(val => (
+                    <a
+                        key={val.id}
+                        href="http://www.alipay.com"
+                        style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+                    >
+                        <img
+                            src={`http://localhost:8080${val.imgSrc}`}
+                            alt=""
+                            style={{ width: '100%', verticalAlign: 'top' }}
+                            onLoad={() => {
+                                // fire window resize event to change height
+                                window.dispatchEvent(new Event('resize'));
+                                this.setState({ imgHeight: 'auto' });
+                            }}
+                        />
+                    </a>
+                ))}
+            </Carousel>
+        } else {
+            return null
+        }
+    }
+
     render() {
         return (
             <div>
-                {this.state.swipers.length ? <Carousel
-                    autoplay={true}
-                    infinite={true}
-                    autoplayInterval={1000}
-                >
-                    {this.state.swipers.map(val => (
-                        <a
-                            key={val.id}
-                            href="http://www.alipay.com"
-                            style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
-                        >
-                            <img
-                                src={`http://localhost:8080${val.imgSrc}`}
-                                alt=""
-                                style={{ width: '100%', verticalAlign: 'top' }}
-                                onLoad={() => {
-                                    // fire window resize event to change height
-                                    window.dispatchEvent(new Event('resize'));
-                                    this.setState({ imgHeight: 'auto' });
-                                }}
-                            />
-                        </a>
-                    ))}
-                </Carousel> : null}
+                {this.renderSwipers()}
                 <Flex justify="around" className="nav">
-                    <Flex.Item><img src={nav1} alt="" /> <div>租房</div></Flex.Item>
-                    <Flex.Item><img src={nav2} alt="" /> <div>租房</div></Flex.Item>
-                    <Flex.Item><img src={nav3} alt="" /><div>租房</div> </Flex.Item>
-                    <Flex.Item><img src={nav4} alt="" /> <div>租房</div></Flex.Item>
+                    <Flex.Item><img src={nav1} alt="" /> <div>整租</div></Flex.Item>
+                    <Flex.Item><img src={nav2} alt="" /> <div>合租</div></Flex.Item>
+                    <Flex.Item><img src={nav3} alt="" /><div>地图找房</div> </Flex.Item>
+                    <Flex.Item><img src={nav4} alt="" /> <div>去出租</div></Flex.Item>
                 </Flex>
             </div>
         )
