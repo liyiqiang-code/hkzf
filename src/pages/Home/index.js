@@ -19,7 +19,7 @@ const arr = [
 export default class Home extends Component {
     render() {
         return (
-            <div>
+            <div className="home">
                 <Route path="/home" exact component={Index} />
                 <Route path="/home/news" component={News} />
                 <Route path="/home/my" component={My} />
