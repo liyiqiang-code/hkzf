@@ -17,13 +17,6 @@ const arr = [
 ]
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedTab: 'redTab',
-            hidden: false,
-        };
-    }
     render() {
         return (
             <div>
@@ -36,7 +29,6 @@ export default class Home extends Component {
                     unselectedTintColor="#949494"
                     tintColor="#21b97a"
                     barTintColor="white"
-                    hidden={this.state.hidden}
                 >
 
                     {arr.map((v, i, a) => (
