@@ -3,6 +3,8 @@ import { NavBar, Icon } from 'antd-mobile';
 import axios from 'axios'
 import './index.scss'
 import { getCurrentCity } from '../../utils'
+//导入list组件
+import { List, AutoSizer, WindowScroller } from 'react-virtualized'
 
 function formatCityList(list) {
 
@@ -26,6 +28,21 @@ function formatCityList(list) {
         cityList
     };
 
+}
+
+//
+function rowRenderer({
+    key, // Unique key within array of rows
+    index, // Index of row within collection
+    isScrolling, // The List is currently being scrolled
+    isVisible, // This row is visible within the List (eg it is not an overscanned row)
+    style, // Style object to be applied to row (to position it)
+}) {
+    return (
+        <div key={key} style={style}>
+            <h3>一行数据</h3>
+        </div>
+    );
 }
 
 export default class CityList extends Component {
@@ -65,6 +82,22 @@ export default class CityList extends Component {
                     icon={<Icon type="left" />}
                     onLeftClick={() => this.props.history.go(-1)}
                 >城市选择</NavBar>
+
+                <WindowScroller>
+                    {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                        <AutoSizer>
+                            {({ width }) => (
+                                <List
+                                    width={width}
+                                    height={height}
+                                    rowCount={this.state.cityIndex.length}
+                                    rowHeight={50}
+                                    rowRenderer={rowRenderer}
+                                />
+                            )}
+                        </AutoSizer>
+                    )}
+                </WindowScroller>
             </div>
         )
     }
