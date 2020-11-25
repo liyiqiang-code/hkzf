@@ -35,6 +35,11 @@ export default class CityList extends Component {
     async fetchCityList() {
         const res = await axios.get('http://localhost:8080/area/city?level=1')
         const { cityList, cityIndex } = formatCityList(res.data.body)
+        //热门城市获取
+        const hotRes = await axios.get('http://localhost:8080/area/hot')
+        cityList['hot'] = hotRes.data.body
+        cityIndex.unshift('hot')
+        console.log(cityIndex, cityList);
     }
     render() {
         return (
