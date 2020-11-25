@@ -2,7 +2,7 @@
     height: 100vh;
 
     .am-navbar.am-navbar-light {
-        background-color: #928ea7;
+        background-color: paleturquoise;
         color: #333;
     }
 }
@@ -25,5 +25,34 @@
         color: #333;
         background: #fff;
         cursor: pointer;
+    }
+}
+
+// 右侧索引
+.city-index {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    right: 5px;
+    z-index: 1;
+    height: 90%;
+    box-sizing: border-box;
+    padding-top: 20px;
+    text-align: center;
+
+    .city-index-item {
+        flex: 1;
+        list-style: none;
+    }
+
+    .index-active {
+        color: #fff;
+        background-color: #21b97a;
+        border-radius: 100%;
+        display: inline-block;
+        font-size: 12px;
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
     }
 }
