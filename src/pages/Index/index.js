@@ -164,6 +164,9 @@ export default class Index extends Component {
         this.props.history.push(v.path)
     }
 
+    handleCity = () => {
+        this.props.history.push('/citylist')
+    }
     render() {
         return (
             <div>
@@ -172,7 +175,7 @@ export default class Index extends Component {
 
                 {/* 搜索框 */}
                 <div className="search-box">
-                    <div className="search"><span className="iconGZ">{this.state.cityInfo}<span className="iconfont icon-arrow "></span></span>
+                    <div className="search"><span className="iconGZ" onClick={this.handleCity}>{this.state.cityInfo}<span className="iconfont icon-arrow "></span></span>
                         <i className="iconfont icon-seach"></i>
                     请输入小区或地址
                     </div>
