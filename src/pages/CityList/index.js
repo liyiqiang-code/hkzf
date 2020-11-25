@@ -43,6 +43,12 @@ function formatCityList(list) {
 //     <div className="name">上海</div>
 //   </div>
 // */
+
+// 索引（A、B等）的高度
+const TITLE_HEIGHT = 36
+// 每个城市名称的高度
+const NAME_HEIGHT = 50
+
 function rowRenderer({
     key, // Unique key within array of rows
     index, // Index of row within collection
@@ -68,6 +74,15 @@ export default class CityList extends Component {
         this.fetchCityList()
     }
 
+    // 获取列表每一行的高度
+    getRowHeight = ({ index }) => {
+        const letter = this.state.cityIndex[index];
+        const list = this.state.cityList[letter];
+
+        return TITLE_HEIGHT + NAME_HEIGHT * list.length;
+
+    }
+
     async fetchCityList() {
         //全部城市获取
         const res = await axios.get('http://localhost:8080/area/city?level=1')
@@ -86,6 +101,42 @@ export default class CityList extends Component {
         })
         console.log(cityIndex, cityList);
     }
+
+    rowRenderer = ({
+        key, // Unique key within array of rows
+        index, // Index of row within collection
+        isScrolling, // The List is currently being scrolled
+        isVisible, // This row is visible within the List (eg it is not an overscanned row)
+        style, // Style object to be applied to row (to position it)
+    }) => {
+        const letter = this.state.cityIndex[index];
+        const list = this.state.cityList[letter];
+
+        let title = '';
+
+        switch (letter) {
+            case '#':
+                title = '当前城市';
+                break;
+            case 'hot':
+                title = '热门城市';
+                break;
+            default:
+                title = letter.toUpperCase();
+                break;
+        }
+
+
+
+        return (
+            <div key={key} style={style} className="city">
+                <div className="title">{title}</div>
+                {list.map((item, i) => (<div key={i} className="name">{item.label}</div>))}
+
+            </div>
+        );
+    }
+
     render() {
         return (
             <div className="city">
@@ -103,8 +154,8 @@ export default class CityList extends Component {
                             width={width}
                             height={height}
                             rowCount={this.state.cityIndex.length}
-                            rowHeight={50}
-                            rowRenderer={rowRenderer}
+                            rowHeight={this.getRowHeight}
+                            rowRenderer={this.rowRenderer}
                         />
                     )}
                 </AutoSizer>
