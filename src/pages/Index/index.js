@@ -23,6 +23,7 @@ export default class Index extends Component {
         groups: [],
         // 最新资讯数据
         news: [],
+        cityInfo: '',
         imgHeight: 176,
     }
 
@@ -30,6 +31,21 @@ export default class Index extends Component {
         this.getSwipers()
         this.getGroups()
         this.getNews()
+
+        var myCity = new window.BMap.LocalCity();
+
+
+        myCity.get((result) => {
+            var cityName = result.name;
+            this.getCityInfo(cityName);
+        });
+    }
+    //定位城市请求
+    async getCityInfo(cityName) {
+        const res = await axios.get(`http://localhost:8080/area/info?name=${cityName}`)
+        this.setState({
+            cityInfo: res.data.body.label
+        })
     }
 
     // 请求轮播图数据
@@ -156,7 +172,7 @@ export default class Index extends Component {
 
                 {/* 搜索框 */}
                 <div className="search-box">
-                    <div className="search"><span className="iconGZ">广州<span className="iconfont icon-arrow "></span></span>
+                    <div className="search"><span className="iconGZ">{this.state.cityInfo}<span className="iconfont icon-arrow "></span></span>
                         <i className="iconfont icon-seach"></i>
                     请输入小区或地址
                     </div>
