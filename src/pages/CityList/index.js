@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { NavBar, Icon } from 'antd-mobile';
 import axios from 'axios'
 import './index.scss'
+import { getCurrentCity } from '../../utils'
 
 function formatCityList(list) {
 
@@ -28,17 +29,32 @@ function formatCityList(list) {
 }
 
 export default class CityList extends Component {
+
+    state = {
+        cityIndex: [],
+        cityList: {}
+    }
+
     componentDidMount() {
         this.fetchCityList()
     }
 
     async fetchCityList() {
+        //全部城市获取
         const res = await axios.get('http://localhost:8080/area/city?level=1')
         const { cityList, cityIndex } = formatCityList(res.data.body)
         //热门城市获取
         const hotRes = await axios.get('http://localhost:8080/area/hot')
         cityList['hot'] = hotRes.data.body
         cityIndex.unshift('hot')
+        const curCityInfo = await getCurrentCity()
+        cityIndex.unshift('#')
+        cityList['#'] = [curCityInfo]
+
+        this.setState({
+            cityIndex,
+            cityList
+        })
         console.log(cityIndex, cityList);
     }
     render() {
