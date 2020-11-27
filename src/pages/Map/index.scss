@@ -2,6 +2,6 @@ html {
     height: 100%;
 
     #container {
-        height: 100vh;
+        height: calc(100vh - 45px);
     }
 }
