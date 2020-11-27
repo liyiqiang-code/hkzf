@@ -21,6 +21,7 @@ function formatCityList(list) {
         }
     }
 
+
     const cityIndex = Object.keys(cityList).sort();
 
     return {
@@ -92,9 +93,19 @@ export default class CityList extends Component {
 
         this.setState({
             cityIndex,
-            cityList
+            cityList,
+            curIndex: 0
         })
-        console.log(cityIndex, cityList);
+        // console.log(cityIndex, cityList);
+    }
+
+    //城市列表索引高亮切换
+    onRowsRendered = ({ startIndex }) => {
+        if (this.state.curIndex !== startIndex) {
+            this.setState({
+                curIndex: startIndex
+            })
+        }
     }
 
     rowRenderer = ({
@@ -151,6 +162,7 @@ export default class CityList extends Component {
                             rowCount={this.state.cityIndex.length}
                             rowHeight={this.getRowHeight}
                             rowRenderer={this.rowRenderer}
+                            onRowsRendered={this.onRowsRendered}
                         />
                     )}
                 </AutoSizer>
