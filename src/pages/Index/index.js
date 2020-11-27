@@ -188,7 +188,7 @@ export default class Index extends Component {
                         <i className="iconfont icon-seach"></i>
                     请输入小区或地址
                     </div>
-                    <span className="iconfont icon-map map"></span>
+                    <span className="iconfont icon-map map" onClick={() => this.props.history.push('/map')}></span>
                 </div>
 
                 {/* nav模块 */}

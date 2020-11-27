@@ -5,6 +5,8 @@ import './index.scss'
 import { getCurrentCity } from '../../utils'
 //导入list组件
 import { List, AutoSizer, WindowScroller } from 'react-virtualized'
+//导入封装组件
+import NavHeader from '../../components/NavHeader'
 
 function formatCityList(list) {
 
@@ -168,11 +170,7 @@ export default class CityList extends Component {
     render() {
         return (
             <div className="city">
-                <NavBar
-                    mode="light"
-                    icon={<Icon type="left" />}
-                    onLeftClick={() => this.props.history.go(-1)}
-                >城市选择</NavBar>
+                <NavHeader>选择城市</NavHeader>
 
                 {/* <WindowScroller> */}
                 {/* {({ height, isScrolling, onChildScroll, scrollTop }) => ( */}
