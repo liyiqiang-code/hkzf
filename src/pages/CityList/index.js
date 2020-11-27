@@ -60,10 +60,15 @@ function rowRenderer({
 
 export default class CityList extends Component {
 
-    state = {
-        cityIndex: [],
-        cityList: {},
-        curIndex: 0
+    constructor() {
+        super()
+        this.state = {
+            cityIndex: [],
+            cityList: {},
+            curIndex: 0
+        }
+        //创建ref引用
+        this.listRef = React.createRef()
     }
 
     componentDidMount() {
@@ -97,6 +102,8 @@ export default class CityList extends Component {
             curIndex: 0
         })
         // console.log(cityIndex, cityList);
+        // 解决List组件js驱动滚动误差问题
+        this.listRef.current.measureAllRows();
     }
 
     //城市列表索引高亮切换
@@ -106,6 +113,11 @@ export default class CityList extends Component {
                 curIndex: startIndex
             })
         }
+    }
+
+    //点击右侧索引事件
+    handleIndex(i) {
+        this.listRef.current.scrollToRow(i);
     }
 
     rowRenderer = ({
@@ -163,6 +175,8 @@ export default class CityList extends Component {
                             rowHeight={this.getRowHeight}
                             rowRenderer={this.rowRenderer}
                             onRowsRendered={this.onRowsRendered}
+                            ref={this.listRef}
+                            scrollToAlignment={'start'}
                         />
                     )}
                 </AutoSizer>
@@ -171,7 +185,7 @@ export default class CityList extends Component {
                 <ul className="city-index">
 
                     {this.state.cityIndex.map((item, i) => (
-                        <li key={i} className="city-index-item">
+                        <li key={i} className="city-index-item" onClick={this.handleIndex.bind(this, i)}>
                             <span className={i === this.state.curIndex ? 'index-active' : ''}>
                                 {item === 'hot' ? '热' : item.toUpperCase()}
                             </span>
