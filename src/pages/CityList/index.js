@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NavBar, Icon } from 'antd-mobile';
+import { NavBar, Icon, Toast, } from 'antd-mobile';
 import axios from 'axios'
 import './index.scss'
 import { getCurrentCity } from '../../utils'
@@ -120,6 +120,16 @@ export default class CityList extends Component {
         this.listRef.current.scrollToRow(i);
     }
 
+    //改变城市事件
+    changeCity(item) {
+        if (['北京', '上海', '广州', '深圳'].indexOf(item.label) > -1) {
+            localStorage.setItem('hkzf_55_city', JSON.stringify(item))
+            this.props.history.go(-1)
+        } else {
+            Toast.info('该城市暂无房源数据', 2, null, false);
+        }
+    }
+
     rowRenderer = ({
         key, // Unique key within array of rows
         index, // Index of row within collection
@@ -149,7 +159,7 @@ export default class CityList extends Component {
         return (
             <div key={key} style={style} className="city">
                 <div className="title">{title}</div>
-                {list.map((item, i) => (<div key={i} className="name">{item.label}</div>))}
+                {list.map((item, i) => (<div key={i} className="name" onClick={this.changeCity.bind(this, item)}>{item.label}</div>))}
 
             </div>
         );

@@ -6,6 +6,7 @@ import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
 import './index.scss'
+import { getCurrentCity } from '../../utils'
 
 // nav模块的数据
 const nav = [
@@ -42,10 +43,18 @@ export default class Index extends Component {
     }
     //定位城市请求
     async getCityInfo(cityName) {
-        const res = await axios.get(`http://localhost:8080/area/info?name=${cityName}`)
-        this.setState({
-            cityInfo: res.data.body.label
-        })
+
+        if (localStorage.getItem('hkzf_55_city')) {
+            let city = JSON.parse(localStorage.getItem('hkzf_55_city'))
+            this.setState({
+                cityInfo: city.label
+            })
+        } else {
+            const res = await axios.get(`http://localhost:8080/area/info?name=${cityName}`)
+            this.setState({
+                cityInfo: res.data.body.label
+            })
+        }
     }
 
     // 请求轮播图数据
