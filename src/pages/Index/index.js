@@ -6,7 +6,6 @@ import nav2 from '../../assets/images/nav-2.png'
 import nav3 from '../../assets/images/nav-3.png'
 import nav4 from '../../assets/images/nav-4.png'
 import './index.scss'
-import { getCurrentCity } from '../../utils'
 
 // nav模块的数据
 const nav = [
