@@ -3,8 +3,8 @@ import './index.scss'
 import NavHeader from '../../components/NavHeader'
 import axios from 'axios'
 
-//覆盖物的样式对象
-const labelSetStyle = {
+//圆形覆盖物的样式对象
+const labelCircleSetStyle = {
     color: 'white',
     borderRadius: '50%',
     width: '70px',
@@ -19,7 +19,26 @@ const labelSetStyle = {
     textAlign: 'center',
 }
 
+
+//方形覆盖物的样式对象
+const labelRectSetStyle = {
+    color: 'white',
+    width: '100px',
+    height: '20px',
+    borderColor: '#ccc',
+    fontSize: '12px',
+    lineHeight: '20px',
+    backgroundColor: 'green',
+    fontFamily: '微软雅黑',
+    display: 'inline-block',
+    boxSizing: 'border-box'
+
+}
+
 export default class Map extends Component {
+    state = {
+        houselist: []
+    }
     componentDidMount() {
         const city = JSON.parse(localStorage.getItem('hkzf_55_city'))
 
@@ -71,11 +90,13 @@ export default class Map extends Component {
         // 镇 zoom  -> 13     nextZoom 15  type rect zoom 11   12 <zoom < 14
         // 小区 zoom -> 15    14 <zoom < 16
 
-        if (10 < zoom < 12) {
+        if (10 <= zoom && zoom < 12) {
             nextZoom = 13;
             type = 'circle';
-        } else if (12 < zoom < 14) {
+        } else if (12 <= zoom && zoom < 14) {
             nextZoom = 15;
+            type = 'circle';
+        } else if (14 <= zoom && zoom < 16) {
             type = 'rect';
         }
 
@@ -84,6 +105,16 @@ export default class Map extends Component {
             type
         };
 
+    }
+
+    //请求房源数据
+    async getHouseList(id) {
+        const res = await axios.get(`http://localhost:8080/houses?cityId=${id}`);
+        // 将数据存储到state当中
+        // console.log(res.data.body);
+        this.setState({
+            houselist: res.data.body.list
+        });
     }
 
     //创建覆盖物
@@ -111,7 +142,7 @@ export default class Map extends Component {
         // 创建文本标注对象
         let label = new window.BMap.Label('', opts);
         // 自定义文本标注样式
-        label.setStyle(labelSetStyle);
+        label.setStyle(labelCircleSetStyle);
 
         // 添加覆盖物内部html标签
         label.setContent(`
@@ -125,7 +156,6 @@ export default class Map extends Component {
             // map.panTo(labelPoint);
             // 2. 地图放大了
             // map.setZoom(13);
-            console.log(2323);
 
             this.map.centerAndZoom(point, nextZoom);
             // 3. 原来的覆盖物 被清除了
@@ -148,17 +178,19 @@ export default class Map extends Component {
         // 创建文本标注对象
         let label = new window.BMap.Label('', opts);
         // 自定义文本标注样式
-        label.setStyle(labelSetStyle);
+        label.setStyle(labelRectSetStyle);
 
         // 添加覆盖物内部html标签
         label.setContent(`
-            <p >${name}</p>
-            <p >${count}套</p>
+        <span id="address">${name}</span>
+        <span >${count}套</span>
         `);
 
 
         label.addEventListener('click', () => {
             //被点击了
+            // 1. 根据地区id请求房源数据
+            this.getHouseList(id);
         });
 
         this.map.addOverlay(label);
@@ -168,6 +200,16 @@ export default class Map extends Component {
             <div className="map-wrapper">
                 <NavHeader >地图找房</NavHeader>
                 <div id="container"></div>
+                <div className="housearea">
+                    <div className="title">
+                        <h3>房源列表</h3>
+                        <div className="more">更多房源</div>
+                    </div>
+
+                    <div className="houselist">
+                        {/* {this.state.houselist.map()} */}
+                    </div>
+                </div>
             </div>
         )
     }
