@@ -24,7 +24,6 @@ export default class Map extends Component {
                 //获取房源数据
                 const city = JSON.parse(localStorage.getItem('hkzf_55_city'))
                 const res = await axios.get(`http://localhost:8080/area/map?id=${city.value}`)
-                console.log(res);
                 res.data.body.forEach((v, i) => {
                     var opts = {
                         position: new window.BMap.Point(v.coord.longitude, v.coord.latitude), // 指定文本标注所在的地理位置在的地理位置
@@ -49,6 +48,16 @@ export default class Map extends Component {
                     });
                     label.setContent(`<p>${v.label}</p><p>${v.count}套</p>`)
                     map.addOverlay(label);
+                    label.addEventListener('click', () => {
+                        // 1. 地图发生了移动
+                        map.panTo(new window.BMap.Point(v.coord.longitude, v.coord.latitude));
+                        // 2. 地图放大了
+                        map.setZoom(13);
+                        // 3. 原来的覆盖物 被清除了
+                        setTimeout(() => {
+                            map.clearOverlays();
+                        }, 0);
+                    })
                 })
             }
         }, city.label);
