@@ -35,11 +35,19 @@ const labelRectSetStyle = {
 
 }
 
+
 export default class Map extends Component {
     state = {
-        houselist: []
+        houselist: [],
+        randoma: '',
+        randomb: ''
     }
     componentDidMount() {
+        this.setState({
+            randoma: Math.floor(Math.random() * 1000),
+            randomb: Math.floor(Math.random() * 1000)
+        })
+
         const city = JSON.parse(localStorage.getItem('hkzf_55_city'))
 
         var map = new window.BMap.Map("container");
@@ -111,7 +119,7 @@ export default class Map extends Component {
     async getHouseList(id) {
         const res = await axios.get(`http://localhost:8080/houses?cityId=${id}`);
         // 将数据存储到state当中
-        // console.log(res.data.body);
+        console.log(res.data.body);
         this.setState({
             houselist: res.data.body.list
         });
@@ -183,7 +191,7 @@ export default class Map extends Component {
         // 添加覆盖物内部html标签
         label.setContent(`
         <span id="address">${name}</span>
-        <span >${count}套</span>
+        <span id="number">${count}套</span>
         `);
 
 
@@ -198,18 +206,35 @@ export default class Map extends Component {
     render() {
         return (
             <div className="map-wrapper">
-                <NavHeader >地图找房</NavHeader>
-                <div id="container"></div>
-                <div className="housearea">
-                    <div className="title">
-                        <h3>房源列表</h3>
-                        <div className="more">更多房源</div>
-                    </div>
 
-                    <div className="houselist">
-                        {/* {this.state.houselist.map()} */}
+                {/* 头部nav */}
+                <NavHeader >地图找房</NavHeader>
+
+                {/* 地图 */}
+                <div id="container"></div>
+
+                {/* 房源详情 */}
+                <div className={this.state.houselist.length ? ' show ' : 'houseDetail '}
+                >
+                    <div className="title">
+                        <h2>房源列表</h2>
+                        <span className="more">更多房源</span>
                     </div>
+                    {this.state.houselist.map((v, i) => (
+                        <div className="houselist" key={v.houseCode}>
+                            <img src={`http://localhost:8080${v.houseImg}`} alt="" />
+
+                            <div className="Introduction">
+                                <h3 className="IntroductionTitle">{v.title}</h3>
+                                <div className="IntroductionDesc">{v.desc}</div>
+                                <div className="IntroductionTags"><span >{v.tags.join(' ')}</span></div>
+                                <div className="price">{v.price}元/月</div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
+
+
             </div>
         )
     }

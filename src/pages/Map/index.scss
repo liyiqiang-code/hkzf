@@ -4,4 +4,170 @@ html {
     #container {
         height: calc(100vh - 45px);
     }
+
+    // 显示房源的样式
+    .show {
+        display: block;
+        transform: all 5s linear;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 330px;
+        background-color: #fff;
+
+        .title {
+            height: 44px;
+            background-color: #c0c0c2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .houselist {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 15px 10px;
+            border-bottom: 1px solid #000;
+
+            img {
+                width: 106px;
+                height: 80px;
+                object-fit: fill;
+                margin-right: 10px;
+            }
+
+            .Introduction {
+                flex: 1;
+                line-height: 1.5;
+
+                .IntroductionTitle {
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box; //作为弹性伸缩盒子模型显示。
+                    -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                    -webkit-line-clamp: 1; //显示的行
+                }
+
+                .IntroductionDesc {
+                    color: gray;
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box; //作为弹性伸缩盒子模型显示。
+                    -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                    -webkit-line-clamp: 1; //显示的行
+                }
+
+                .IntroductionTags {
+                    span {
+                        height: 20px;
+                        line-height: 20px;
+                    }
+                }
+
+                .price {
+                    color: red;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+
+    // 隐藏房源的样式
+    .houseDetail {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 330px;
+        background-color: #fff;
+
+        .title {
+            height: 44px;
+            background-color: #c0c0c2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .houselist {
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 15px 10px;
+            border-bottom: 1px solid #000;
+
+            img {
+                width: 106px;
+                height: 80px;
+                object-fit: fill;
+                margin-right: 10px;
+            }
+
+            .Introduction {
+                flex: 1;
+                line-height: 1.5;
+
+                .IntroductionTitle {
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box; //作为弹性伸缩盒子模型显示。
+                    -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                    -webkit-line-clamp: 1; //显示的行
+                }
+
+                .IntroductionDesc {
+                    color: gray;
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box; //作为弹性伸缩盒子模型显示。
+                    -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                    -webkit-line-clamp: 1; //显示的行
+                }
+
+                .IntroductionTags {
+                    span {
+                        height: 20px;
+                        line-height: 20px;
+                    }
+                }
+
+                .price {
+                    color: red;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+
+    .map-wrapper {
+        .BMapLabel {
+            box-sizing: border-box;
+
+            #address {
+                width: 70px;
+                height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box; //作为弹性伸缩盒子模型显示。
+                -webkit-box-orient: vertical; //设置伸缩盒子的子元素排列方式--从上到下垂直排列
+                -webkit-line-clamp: 1; //显示的行
+            }
+
+            #number {
+                color: red;
+            }
+        }
+    }
+
 }
