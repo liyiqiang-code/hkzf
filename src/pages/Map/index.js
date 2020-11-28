@@ -27,17 +27,19 @@ export default class Map extends Component {
                 var label = new window.BMap.Label('你好', opts);
                 // 自定义文本标注样式
                 label.setStyle({
-                    color: 'red',
-                    borderRadius: '5px',
+                    color: 'white',
+                    borderRadius: '50%',
+                    width: '70px',
+                    height: '70px',
                     borderColor: '#ccc',
                     fontSize: '16px',
-                    height: '30px',
-                    lineHeight: '30px',
+                    lineHeight: '10px',
+                    backgroundColor: 'green',
                     fontFamily: '微软雅黑',
                     display: 'inline-block',
-                    verticalAlign: 'middle'
-
+                    textAlign: 'center',
                 });
+                label.setContent(`<p>通州</p><p>87套</p>`)
                 map.addOverlay(label);
             }
         }, city.label);

@@ -15,14 +15,12 @@ function formatCityList(list) {
     for (let i = 0; i < list.length; i++) {
         let item = list[i];
         let first = item.short.substr(0, 1);
-
         if (cityList[first]) {
             cityList[first].push(item);
         } else {
             cityList[first] = [item];
         }
     }
-
 
     const cityIndex = Object.keys(cityList).sort();
 
