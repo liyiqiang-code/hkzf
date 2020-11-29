@@ -204,10 +204,16 @@ export default class Map extends Component {
         `);
 
 
-        label.addEventListener('click', () => {
+        label.addEventListener('click', (e) => {
             //被点击了
             // 1. 根据地区id请求房源数据
             this.getHouseList(id);
+
+            //点击移动覆盖物到地图中心点
+            // console.log(e);
+            const { clientX, clientY } = e.changedTouches[0]
+            // console.log(window.innerWidth / 2 - clientX, (window.innerHeight - 330) / 2 - clientY);
+            this.map.panBy(window.innerWidth / 2 - clientX, (window.innerHeight - 330) / 2 - clientY)
         });
 
         this.map.addOverlay(label);
