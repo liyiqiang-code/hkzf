@@ -54,6 +54,15 @@ export default class Map extends Component {
         this.map = map
         map.centerAndZoom(new window.BMap.Point(116.404, 39.915), 11);
 
+        // 拖拽地图隐藏房源信息盒子
+        map.addEventListener('dragging', () => {
+            if (this.state.houselist.length > 0) {
+                this.setState({
+                    houselist: []
+                })
+            }
+        })
+
 
         // 创建地址解析器实例     
         var myGeo = new window.BMap.Geocoder();
