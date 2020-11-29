@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.scss'
 import NavHeader from '../../components/NavHeader'
 import axios from 'axios'
+import Api from '../../utils/api'
 import { Toast } from 'antd-mobile';
 
 //圆形覆盖物的样式对象
@@ -79,7 +80,7 @@ export default class Map extends Component {
     //请求数据,并渲染覆盖物
     async renderOverlays(id) {
         Toast.loading('加载中...', 0);
-        const res = await axios.get(`http://localhost:8080/area/map?id=${id}`)
+        const res = await Api.get(`/area/map?id=${id}`)
         Toast.success('数据加载成功', 1);
         // 获取地图的缩放级别
         const zoom = this.map.getZoom();
@@ -122,7 +123,7 @@ export default class Map extends Component {
 
     //请求房源数据
     async getHouseList(id) {
-        const res = await axios.get(`http://localhost:8080/houses?cityId=${id}`);
+        const res = await Api.get(`/houses?cityId=${id}`);
         // 将数据存储到state当中
         console.log(res.data.body);
         this.setState({
