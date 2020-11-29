@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.scss'
 import NavHeader from '../../components/NavHeader'
 import axios from 'axios'
+import { Toast } from 'antd-mobile';
 
 //圆形覆盖物的样式对象
 const labelCircleSetStyle = {
@@ -39,14 +40,8 @@ const labelRectSetStyle = {
 export default class Map extends Component {
     state = {
         houselist: [],
-        randoma: '',
-        randomb: ''
     }
     componentDidMount() {
-        this.setState({
-            randoma: Math.floor(Math.random() * 1000),
-            randomb: Math.floor(Math.random() * 1000)
-        })
 
         const city = JSON.parse(localStorage.getItem('hkzf_55_city'))
 
@@ -83,8 +78,9 @@ export default class Map extends Component {
 
     //请求数据,并渲染覆盖物
     async renderOverlays(id) {
+        Toast.loading('加载中...', 0);
         const res = await axios.get(`http://localhost:8080/area/map?id=${id}`)
-
+        Toast.success('数据加载成功', 1);
         // 获取地图的缩放级别
         const zoom = this.map.getZoom();
 
