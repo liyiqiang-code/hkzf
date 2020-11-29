@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { NavBar, Icon } from 'antd-mobile';
 import propTypes from 'prop-types'
-import '../NavHeader/index.scss'
+import './index.scss'
 
 function NavHeader(props) {
     const defaultHandle = () => props.history.go(-1)
