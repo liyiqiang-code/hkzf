@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import NavSearch from '../../components/NavSearch'
 import './index.scss'
+import Filter from './components/Filter'
+import FilterTitle from './components/FilterTitle'
+import FilterPicker from './components/FilterPicker'
+import FilterMore from './components/FilterMore'
+
+import styles from '../../components/FilterFooter/index.module.css'
 
 export default class HouseList extends Component {
     state = {
@@ -20,7 +26,22 @@ export default class HouseList extends Component {
                     <i className="iconfont icon-back" onClick={() => this.props.history.push('/home')}></i>
                     <NavSearch cityName={this.state.cityInfo} />
                 </div>
-                找房
+
+                <div className={styles.root}>
+                    {/* 前三个菜单的遮罩层 */}
+                    {/* <div className={styles.mask} /> */}
+
+                    <div className={styles.content}>
+                        {/* 标题栏 */}
+                        <FilterTitle />
+
+                        {/* 前三个菜单对应的内容： */}
+                        {/* <FilterPicker /> */}
+
+                        {/* 最后一个菜单对应的内容： */}
+                        {/* <FilterMore /> */}
+                    </div>
+                </div>
             </div>
         )
     }
