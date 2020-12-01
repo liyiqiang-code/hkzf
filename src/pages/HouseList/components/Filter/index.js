@@ -42,7 +42,6 @@ export default class Filter extends Component {
 
   onTitleClick = (type) => {
     //  type area   mode   price   more 
-    console.log(type);
     this.setState({
       titleSelectedStatus: {
         ...this.state.titleSelectedStatus,
@@ -64,6 +63,37 @@ export default class Filter extends Component {
     })
   }
 
+  renderFilterPicker() {
+
+    const { openType, filterData: {
+      area, subway, rentType, price
+    } } = this.state;
+
+    if (openType !== 'area' && openType !== 'mode' && openType !== 'price') {
+      return null;
+    }
+
+    let data = [];
+    let cols = 3;
+
+    switch (openType) {
+      case 'area':
+        data = [area, subway];
+        break;
+      case 'mode':
+        data = rentType;
+        cols = 1;
+        break;
+      case 'price':
+        data = price;
+        cols = 1;
+        break;
+      default:
+        break;
+    }
+    return <FilterPicker data={data} cols={cols} onCancel={this.onCancel} onSave={this.onSave} />
+  }
+
   render() {
 
     const { openType } = this.state;
@@ -80,10 +110,11 @@ export default class Filter extends Component {
 
 
           {/* 前三个菜单对应的内容： */}
-          {openType === 'area' || openType === 'mode'
+          {this.renderFilterPicker()}
+          {/* {openType === 'area' || openType === 'mode'
             || openType === 'price' ? <FilterPicker
               onCancel={this.onCancel}
-              onSave={this.onSave} /> : null}
+              onSave={this.onSave} /> : null} */}
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
