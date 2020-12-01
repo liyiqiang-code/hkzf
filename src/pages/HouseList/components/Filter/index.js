@@ -12,7 +12,7 @@ const titleSelectedStatus = {
   area: false,
   mode: false,
   price: false,
-  more: false,
+  more: false
 }
 
 // 记忆选中值
@@ -20,7 +20,7 @@ const selectedValues = {
   area: ['area', 'null'],
   mode: ['null'],
   price: ['null'],
-  more: null
+  more: []
 }
 
 export default class Filter extends Component {
@@ -148,7 +148,7 @@ export default class Filter extends Component {
       default:
         break;
     }
-    return <FilterPicker key={openType} defaultValue={defaultValue} data={data} cols={cols}
+    return <FilterPicker key={openType} data={data} cols={cols}
       onCancel={this.onCancel} onSave={this.onSave} type={openType} />
   }
 
@@ -162,7 +162,9 @@ export default class Filter extends Component {
       return null;
     }
 
-    return <FilterMore roomType={roomType} oriented={oriented} floor={floor} characteristic={characteristic} />
+    let defaultValue = selectedValues.more
+
+    return <FilterMore roomType={roomType} oriented={oriented} floor={floor} defaultValue={defaultValue} characteristic={characteristic} onSave={this.onSave} onCancel={this.onSave} />
 
   }
 
