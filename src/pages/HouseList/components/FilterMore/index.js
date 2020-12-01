@@ -5,10 +5,51 @@ import FilterFooter from '../../../../components/FilterFooter'
 import styles from './index.module.css'
 
 export default class FilterMore extends Component {
+  state = {
+    selectedValues: []
+  }
+
+
+  handleSelect(id) {
+
+    const { selectedValues } = this.state;
+
+    if (selectedValues.indexOf(id) > -1) {
+      //取消选中
+      let index = selectedValues.findIndex((i) => i === id);
+
+      selectedValues.splice(index, 1);
+
+    } else {
+      // 选中
+      selectedValues.push(id);
+      // this.setState({
+      //   selectedValues: [
+      //     ...selectedValues,
+      //     id
+      //   ]
+      // })
+    }
+
+    this.setState({
+      selectedValues
+    });
+
+  }
   // 渲染标签
   renderFilters(list) {
     // 高亮类名： styles.tagActive
-    return list.map((item, i) => (<span key={item.value} className={[styles.tag, styles.tagActive].join(' ')}>{item.label}</span>))
+    return list.map((item, i) => {
+      const { selectedValues } = this.state;
+      let isSelected = selectedValues.includes(item.value);
+
+      return (
+        <span key={item.value}
+          className={[styles.tag, isSelected ? styles.tagActive : ''].join(' ')}
+          onClick={this.handleSelect.bind(this, item.value)}
+        >{item.label}</span>
+      )
+    })
   }
 
   render() {
