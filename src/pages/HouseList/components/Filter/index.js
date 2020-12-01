@@ -6,7 +6,29 @@ import FilterMore from '../FilterMore'
 
 import styles from './index.module.css'
 
+const titleSelectedStatus = {
+  area: false,
+  mode: false,
+  price: false,
+  more: false,
+}
+
 export default class Filter extends Component {
+
+  state = {
+    titleSelectedStatus,
+  }
+
+  onTitleClick = (type) => {
+    //  type area   mode   price   more 
+    this.setState({
+      titleSelectedStatus: {
+        ...this.state.titleSelectedStatus,
+        [type]: true
+      }
+    });
+  }
+
   render() {
     return (
       <div className={styles.root}>
@@ -15,7 +37,8 @@ export default class Filter extends Component {
 
         <div className={styles.content}>
           {/* 标题栏 */}
-          <FilterTitle />
+          <FilterTitle onClick={this.onTitleClick} titleSelectedStatus={this.state.titleSelectedStatus} />
+
 
           {/* 前三个菜单对应的内容： */}
           {/* <FilterPicker /> */}

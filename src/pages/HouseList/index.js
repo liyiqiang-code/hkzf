@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import NavSearch from '../../components/NavSearch'
 import './index.scss'
 import Filter from './components/Filter'
-import FilterTitle from './components/FilterTitle'
-import FilterPicker from './components/FilterPicker'
-import FilterMore from './components/FilterMore'
+
 
 import styles from '../../components/FilterFooter/index.module.css'
 
@@ -33,7 +31,7 @@ export default class HouseList extends Component {
 
                     <div className={styles.content}>
                         {/* 标题栏 */}
-                        <FilterTitle />
+                        <Filter />
 
                         {/* 前三个菜单对应的内容： */}
                         {/* <FilterPicker /> */}
