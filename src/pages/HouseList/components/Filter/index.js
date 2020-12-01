@@ -6,6 +6,8 @@ import FilterMore from '../FilterMore'
 
 import styles from './index.module.css'
 
+import API from '../../../../utils/api.js'
+
 const titleSelectedStatus = {
   area: false,
   mode: false,
@@ -18,7 +20,24 @@ export default class Filter extends Component {
   state = {
     titleSelectedStatus,
     // 打开类型
-    openType: ''
+    openType: '',
+    // 获取过滤数据源
+    filterData: {}
+  }
+
+  componentDidMount() {
+    this.getFilterData();
+  }
+  // 获取过滤数据源
+  async getFilterData() {
+
+    const { value } = JSON.parse(localStorage.getItem('hkzf_55_city'))
+
+    const res = await API.get(`http://localhost:8080/houses/condition?id=${value}`);
+
+    this.setState({
+      filterData: res.data.body
+    });
   }
 
   onTitleClick = (type) => {
