@@ -165,11 +165,36 @@ export default class Filter extends Component {
 
     });
 
+    let filters = {};
+
+    // 1. 处理区域数据结果
+    let areaKey = newSelectedValues.area[0] === 'area' ? 'area' : 'subway';
+
+    let areaValue = newSelectedValues.area[1];
+
+    if (newSelectedValues.area.length === 3 && newSelectedValues.area[2] !== 'null') {
+      areaValue = newSelectedValues.area[2];
+    }
+
+    filters[areaKey] = areaValue;
+
+    // 2. 处理方式
+    filters.mode = newSelectedValues.mode[0];
+
+    // 3 处理价格
+    filters.price = newSelectedValues.price[0];
+    // 4处理  筛选
+    filters.more = newSelectedValues.more.join(',')
+
+
+    this.props.onFilter(filters);
+
+
     this.setState({
       openType: '',
       selectedValues: newSelectedValues,
       titleSelectedStatus: newTitleSelectedStatus
-    })
+    });
   }
 
   renderFilterPicker() {

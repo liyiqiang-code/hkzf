@@ -18,7 +18,6 @@ export default class FilterPicker extends Component {
       <>
         <PickerView data={data} value={this.state.value}
           onChange={(val) => {
-            console.log('val', val);
             this.setState({ value: val })
           }}
           cols={cols} />
