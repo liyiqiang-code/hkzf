@@ -17,7 +17,7 @@ const titleSelectedStatus = {
 
 // 记忆选中值
 const selectedValues = {
-  area: ['area', 'null'],
+  area: ['area', null],
   mode: ['null'],
   price: ['null'],
   more: []
@@ -88,8 +88,8 @@ export default class Filter extends Component {
         newTitleSelectedStatus[key] = true;
       } else if (key === 'price' && (selectedVal[0] !== 'null')) {
         newTitleSelectedStatus[key] = true;
-      } else if (key === 'more') {
-        //TODO
+      } else if (key === 'more' && selectedVal.length) {
+        newTitleSelectedStatus[key] = true;
       } else {
         newTitleSelectedStatus[key] = false;
       }
@@ -103,27 +103,82 @@ export default class Filter extends Component {
   }
 
   onCancel = () => {
+    const { titleSelectedStatus, selectedValues } = this.state;
+
+    let newTitleSelectedStatus = { ...titleSelectedStatus };
+
+    // Object.keys(titleSelectedStatus) => ['area', 'mode', 'price', 'more']
+    // key   area   mode   price   more 
+    Object.keys(titleSelectedStatus).forEach((key) => {
+
+
+      let selectedVal = selectedValues[key];
+
+      if (key === 'area' && (selectedVal.length !== 2 || selectedVal[0] !== 'area')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'mode' && (selectedVal[0] !== 'null')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'price' && (selectedVal[0] !== 'null')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'more' && selectedVal.length) {
+        newTitleSelectedStatus[key] = true;
+      } else {
+        newTitleSelectedStatus[key] = false;
+      }
+
+    });
+
     this.setState({
-      openType: ''
+      openType: '',
+      titleSelectedStatus: newTitleSelectedStatus
     })
   }
 
   onSave = (type, value) => {
-    const { selectedValues } = this.state;
+    const { titleSelectedStatus, selectedValues } = this.state;
+
+    let newSelectedValues = {
+      ...selectedValues,
+      [type]: value
+    }
+
+    let newTitleSelectedStatus = { ...titleSelectedStatus };
+
+    // Object.keys(titleSelectedStatus) => ['area', 'mode', 'price', 'more']
+    // key   area   mode   price   more 
+    Object.keys(titleSelectedStatus).forEach((key) => {
+
+
+      let selectedVal = newSelectedValues[key];
+
+      if (key === 'area' && (selectedVal.length !== 2 || selectedVal[0] !== 'area')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'mode' && (selectedVal[0] !== 'null')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'price' && (selectedVal[0] !== 'null')) {
+        newTitleSelectedStatus[key] = true;
+      } else if (key === 'more' && selectedVal.length) {
+        newTitleSelectedStatus[key] = true;
+      } else {
+        newTitleSelectedStatus[key] = false;
+      }
+
+    });
+
     this.setState({
       openType: '',
-      selectedValues: {
-        ...selectedValues,
-        [type]: value
-      }
+      selectedValues: newSelectedValues,
+      titleSelectedStatus: newTitleSelectedStatus
     })
   }
 
   renderFilterPicker() {
 
-    const { openType, filterData: {
-      area, subway, rentType, price
-    }, selectedValues } = this.state;
+    const {
+      openType, filterData: {
+        area, subway, rentType, price
+      }, selectedValues
+    } = this.state;
 
     if (openType !== 'area' && openType !== 'mode' && openType !== 'price') {
       return null;
@@ -148,7 +203,7 @@ export default class Filter extends Component {
       default:
         break;
     }
-    return <FilterPicker key={openType} data={data} cols={cols}
+    return <FilterPicker key={openType} data={data} cols={cols} defaultValue={defaultValue}
       onCancel={this.onCancel} onSave={this.onSave} type={openType} />
   }
 
