@@ -15,6 +15,14 @@ const titleSelectedStatus = {
   more: false,
 }
 
+// 记忆选中值
+const selectedValues = {
+  area: ['area', null],
+  mode: [null],
+  price: [null],
+  more: null
+}
+
 export default class Filter extends Component {
 
   state = {
@@ -22,7 +30,9 @@ export default class Filter extends Component {
     // 打开类型
     openType: '',
     // 获取过滤数据源
-    filterData: {}
+    filterData: {},
+    // 记忆选中值
+    selectedValues
   }
 
   componentDidMount() {
@@ -57,9 +67,14 @@ export default class Filter extends Component {
     })
   }
 
-  onSave = () => {
+  onSave = (type, value) => {
+    const { selectedValues } = this.state;
     this.setState({
-      openType: ''
+      openType: '',
+      selectedValues: {
+        ...selectedValues,
+        [type]: value
+      }
     })
   }
 
@@ -67,7 +82,7 @@ export default class Filter extends Component {
 
     const { openType, filterData: {
       area, subway, rentType, price
-    } } = this.state;
+    }, selectedValues } = this.state;
 
     if (openType !== 'area' && openType !== 'mode' && openType !== 'price') {
       return null;
@@ -75,6 +90,7 @@ export default class Filter extends Component {
 
     let data = [];
     let cols = 3;
+    let defaultValue = selectedValues[openType]
 
     switch (openType) {
       case 'area':
@@ -91,7 +107,8 @@ export default class Filter extends Component {
       default:
         break;
     }
-    return <FilterPicker data={data} cols={cols} onCancel={this.onCancel} onSave={this.onSave} />
+    return <FilterPicker defaultValue={defaultValue} data={data} cols={cols}
+      onCancel={this.onCancel} onSave={this.onSave} type={openType} />
   }
 
   render() {
