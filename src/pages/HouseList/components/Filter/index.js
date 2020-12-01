@@ -60,7 +60,7 @@ export default class Filter extends Component {
 
     const { value } = JSON.parse(localStorage.getItem('hkzf_55_city'))
 
-    const res = await API.get(`http://localhost:8080/houses/condition?id=${value}`);
+    const res = await API.get(`/houses/condition?id=${value}`);
 
     this.setState({
       filterData: res.data.body
@@ -152,6 +152,20 @@ export default class Filter extends Component {
       onCancel={this.onCancel} onSave={this.onSave} type={openType} />
   }
 
+  // {/* 最后一个菜单对应的内容： */}
+  renderFilterMore() {
+    const { openType, filterData: {
+      roomType, oriented, floor, characteristic
+    } } = this.state;
+
+    if (openType !== 'more') {
+      return null;
+    }
+
+    return <FilterMore roomType={roomType} oriented={oriented} floor={floor} characteristic={characteristic} />
+
+  }
+
   render() {
 
     const { openType } = this.state;
@@ -175,7 +189,7 @@ export default class Filter extends Component {
               onSave={this.onSave} /> : null} */}
 
           {/* 最后一个菜单对应的内容： */}
-          {/* <FilterMore /> */}
+          {this.renderFilterMore()}
         </div>
       </div>
     )

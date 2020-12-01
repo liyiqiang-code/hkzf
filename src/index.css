@@ -14,9 +14,13 @@ code {
 
 #root {
   height: 100vh;
-
 }
 
 * {
   box-sizing: border-box;
+}
+
+dd {
+  padding: 0;
+  margin: 0;
 }
