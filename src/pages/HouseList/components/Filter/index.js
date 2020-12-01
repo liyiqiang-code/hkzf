@@ -76,7 +76,7 @@ export default class Filter extends Component {
     Object.keys(titleSelectedStatus).forEach((key) => {
 
       if (type === key) {
-        newTitleSelectedStatus[type] = true;
+        newTitleSelectedStatus[key] = true;
         return;
       }
 
@@ -183,10 +183,6 @@ export default class Filter extends Component {
 
           {/* 前三个菜单对应的内容： */}
           {this.renderFilterPicker()}
-          {/* {openType === 'area' || openType === 'mode'
-            || openType === 'price' ? <FilterPicker
-              onCancel={this.onCancel}
-              onSave={this.onSave} /> : null} */}
 
           {/* 最后一个菜单对应的内容： */}
           {this.renderFilterMore()}
