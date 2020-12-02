@@ -1,0 +1,45 @@
+.houselistWrapper {
+
+    .header {
+        height: 45px;
+        padding: 0 10px;
+        background-color: #f6f5f6;
+
+        :global(.icon-back) {
+            font-size: 16px;
+            color: #999;
+        }
+
+        .search {
+            position: relative;
+            top: 0;
+            left: 0;
+
+            :global(.icon-map) {
+                color: #00ae66;
+                font-size: 25px;
+            }
+
+            :global(.search) {
+                height: 30px;
+            }
+        }
+    }
+
+
+    /* 房屋列表样式 */
+    .houseItems {
+        padding: 0 15px;
+    }
+
+
+    .loading {
+        line-height: 120px;
+        text-align: center;
+        height: 110px;
+        background-color: #f6f5f6;
+    }
+
+
+
+}

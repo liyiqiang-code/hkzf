@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import NavSearch from '../../components/NavSearch'
 import './index.scss'
+// import './index.module.scss'
 import Filter from './components/Filter'
 
 //导入list组件
-import { List, AutoSizer, WindowScroller } from 'react-virtualized'
+import { List, AutoSizer, WindowScroller, InfiniteLoader } from 'react-virtualized'
 import HouseItem from '../../components/HouseItem'
 
 
@@ -70,14 +71,14 @@ export default class HouseList extends Component {
 
         if (!item) {
             return (
-                <div className={StyleSheet.loading}>
+                <div key={key} className={StyleSheet.loading}>
                     <p>加载中...</p>
                 </div>
             )
         }
 
         return <HouseItem
-            key={item.houseCode}
+            key={key}
             src={`http://localhost:8080${item.houseImg}`}
             title={item.title}
             desc={item.desc}
@@ -86,6 +87,41 @@ export default class HouseList extends Component {
             onClick={() => console.log('点击房源！')}
         />;
     }
+
+    // InfiniteLoader 判断数据是否加载的函数
+    isRowLoaded = ({ index }) => {
+        return !!this.state.list[index];
+    }
+
+    // InfiniteLoader 加载更多数据的方法
+    loadMoreRows = async ({ startIndex, stopIndex }) => {
+
+        // 获取城市id
+        const cityInfo = JSON.parse(localStorage.getItem('hkzf_55_city'))
+
+        return new Promise((resolve) => {
+
+            API.get(`/houses`, {
+                params: {
+                    cityId: cityInfo.value,
+                    ...this.filters,
+                    start: startIndex,
+                    end: stopIndex
+                }
+            }).then((res) => {
+
+                this.setState({
+                    count: res.data.body.count,
+                    list: [...this.state.list, ...res.data.body.list]
+                });
+
+                resolve();
+
+            })
+
+        })
+    }
+
 
 
 
@@ -105,26 +141,35 @@ export default class HouseList extends Component {
                 {/* 标题栏 */}
                 <Filter onFilter={this.onFilter} />
 
-                <div className={'houseItems'}>
-                    <WindowScroller>
-                        {({ height, isScrolling, registerChild, scrollTop }) => (
-                            <AutoSizer>
-                                {({ width }) => (
-                                    <List
-                                        autoHeight
-                                        ref={registerChild}
-                                        width={width}
-                                        height={height}
-                                        rowCount={this.state.count}
-                                        rowHeight={120}
-                                        rowRenderer={this.rowRenderer}
-                                        scrollTop={scrollTop}
-                                        isScrolling={isScrolling}
-                                    />
+                <div className="houseItems">
+                    <InfiniteLoader
+                        isRowLoaded={this.isRowLoaded}
+                        loadMoreRows={this.loadMoreRows}
+                        rowCount={this.state.count}
+                    >
+                        {({ onRowsRendered, registerChild }) => (
+                            <WindowScroller>
+                                {({ height, isScrolling, scrollTop }) => (
+                                    <AutoSizer>
+                                        {({ width }) => (
+                                            <List
+                                                onRowsRendered={onRowsRendered}
+                                                autoHeight
+                                                ref={registerChild}
+                                                width={width}
+                                                height={height}
+                                                rowCount={this.state.count}
+                                                rowHeight={120}
+                                                rowRenderer={this.rowRenderer}
+                                                scrollTop={scrollTop}
+                                                isScrolling={isScrolling}
+                                            />
+                                        )}
+                                    </AutoSizer>
                                 )}
-                            </AutoSizer>
+                            </WindowScroller>
                         )}
-                    </WindowScroller>
+                    </InfiniteLoader>
                 </div>
 
 
