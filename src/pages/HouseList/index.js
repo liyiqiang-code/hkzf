@@ -8,7 +8,7 @@ import { List, AutoSizer, WindowScroller } from 'react-virtualized'
 import HouseItem from '../../components/HouseItem'
 
 
-import styles from '../../components/FilterFooter/index.module.css'
+// import styles from '../../components/FilterFooter/index.module.css'
 
 import API from '../../utils/api'
 
@@ -68,6 +68,14 @@ export default class HouseList extends Component {
         const { list } = this.state;
         const item = list[index];
 
+        if (!item) {
+            return (
+                <div className={StyleSheet.loading}>
+                    <p>加载中...</p>
+                </div>
+            )
+        }
+
         return <HouseItem
             key={item.houseCode}
             src={`http://localhost:8080${item.houseImg}`}
@@ -89,44 +97,45 @@ export default class HouseList extends Component {
                     <NavSearch cityName={this.state.cityInfo} />
                 </div>
 
-                <div className={styles.root}>
-                    {/* 前三个菜单的遮罩层 */}
-                    {/* <div className={styles.mask} /> */}
+                {/* <div className={styles.root}> */}
+                {/* 前三个菜单的遮罩层 */}
+                {/* <div className={styles.mask} /> */}
 
-                    <div className={styles.content}>
-                        {/* 标题栏 */}
-                        <Filter onFilter={this.onFilter} />
+                {/* <div className={styles.content}> */}
+                {/* 标题栏 */}
+                <Filter onFilter={this.onFilter} />
 
-                        <div className={styles.houseItems}>
-                            <WindowScroller>
-                                {({ height, isScrolling, registerChild, scrollTop }) => (
-                                    <AutoSizer>
-                                        {({ width }) => (
-                                            <List
-                                                ref={registerChild}
-                                                width={width}
-                                                height={height}
-                                                rowCount={this.state.count}
-                                                rowHeight={120}
-                                                rowRenderer={this.rowRenderer}
-                                                scrollTop={scrollTop}
-                                                isScrolling={isScrolling}
-                                            />
-                                        )}
-                                    </AutoSizer>
+                <div className={'houseItems'}>
+                    <WindowScroller>
+                        {({ height, isScrolling, registerChild, scrollTop }) => (
+                            <AutoSizer>
+                                {({ width }) => (
+                                    <List
+                                        autoHeight
+                                        ref={registerChild}
+                                        width={width}
+                                        height={height}
+                                        rowCount={this.state.count}
+                                        rowHeight={120}
+                                        rowRenderer={this.rowRenderer}
+                                        scrollTop={scrollTop}
+                                        isScrolling={isScrolling}
+                                    />
                                 )}
-                            </WindowScroller>
-                        </div>
-
-
-                        {/* 前三个菜单对应的内容： */}
-                        {/* <FilterPicker /> */}
-
-                        {/* 最后一个菜单对应的内容： */}
-                        {/* <FilterMore /> */}
-                    </div>
+                            </AutoSizer>
+                        )}
+                    </WindowScroller>
                 </div>
+
+
+                {/* 前三个菜单对应的内容： */}
+                {/* <FilterPicker /> */}
+
+                {/* 最后一个菜单对应的内容： */}
+                {/* <FilterMore /> */}
             </div>
+            //     </div>
+            // </div>
         )
     }
 }
