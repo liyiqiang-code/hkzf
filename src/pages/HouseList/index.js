@@ -3,7 +3,8 @@ import NavSearch from '../../components/NavSearch'
 import './index.scss'
 import Filter from './components/Filter'
 
-import { List } from 'react-virtualized';
+//导入list组件
+import { List, AutoSizer, WindowScroller } from 'react-virtualized'
 import HouseItem from '../../components/HouseItem'
 
 
@@ -97,16 +98,24 @@ export default class HouseList extends Component {
                         <Filter onFilter={this.onFilter} />
 
                         <div className={styles.houseItems}>
-                            <List
-                                width={500}
-                                height={300}
-                                rowCount={this.state.count}
-                                rowHeight={120}
-                                rowRenderer={this.rowRenderer}
-                            // onRowsRendered={this.onRowsRendered}
-                            // ref={this.listRef}
-                            // scrollToAlignment={'start'}
-                            />
+                            <WindowScroller>
+                                {({ height, isScrolling, registerChild, scrollTop }) => (
+                                    <AutoSizer>
+                                        {({ width }) => (
+                                            <List
+                                                ref={registerChild}
+                                                width={width}
+                                                height={height}
+                                                rowCount={this.state.count}
+                                                rowHeight={120}
+                                                rowRenderer={this.rowRenderer}
+                                                scrollTop={scrollTop}
+                                                isScrolling={isScrolling}
+                                            />
+                                        )}
+                                    </AutoSizer>
+                                )}
+                            </WindowScroller>
                         </div>
 
 
