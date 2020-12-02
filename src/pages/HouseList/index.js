@@ -17,7 +17,11 @@ export default class HouseList extends Component {
     state = {
         cityInfo: '',
         count: 0,
-        list: []
+        list: [],
+        scroll: '',
+        position: '',
+        left: 100,
+        top: 0,
     }
 
     filters = {}
@@ -28,6 +32,36 @@ export default class HouseList extends Component {
             cityInfo: cityInfo.label
         })
         this.fetchHouseListData();
+
+        window.addEventListener('scroll', this.bindHandleScroll)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.bindHandleScroll);
+    }
+
+    bindHandleScroll = (event) => {
+        // 滚动的高度
+        const scrollTop = event.srcElement.documentElement.scrollTop
+            || window.pageYOffset
+            || event.srcElement.body.scrollTop;
+        console.log(scrollTop);
+        this.setState({
+            scroll: scrollTop
+        })
+        if (this.state.scroll >= 46) {
+            this.setState({
+                position: 'fixed',
+                left: 0,
+                top: 0
+            })
+        } else {
+            this.setState({
+                position: '',
+                left: '',
+                top: ''
+            })
+        }
     }
 
     async fetchHouseListData() {
@@ -139,7 +173,7 @@ export default class HouseList extends Component {
 
                 {/* <div className={styles.content}> */}
                 {/* 标题栏 */}
-                <Filter onFilter={this.onFilter} />
+                <div style={{ position: this.state.position, left: this.state.left, top: this.state.top, width: 375, zIndex: 100 }}><Filter onFilter={this.onFilter} /></div>
 
                 <div className="houseItems">
                     <InfiniteLoader
