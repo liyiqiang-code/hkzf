@@ -3,6 +3,9 @@ import NavSearch from '../../components/NavSearch'
 import './index.scss'
 import Filter from './components/Filter'
 
+import { List } from 'react-virtualized';
+import HouseItem from '../../components/HouseItem'
+
 
 import styles from '../../components/FilterFooter/index.module.css'
 
@@ -53,6 +56,29 @@ export default class HouseList extends Component {
         this.fetchHouseListData();
     }
 
+    rowRenderer = ({
+        key, // Unique key within array of rows
+        index, // Index of row within collection
+        isScrolling, // The List is currently being scrolled
+        isVisible, // This row is visible within the List (eg it is not an overscanned row)
+        style, // Style object to be applied to row (to position it)
+    }) => {
+
+        const { list } = this.state;
+        const item = list[index];
+
+        return <HouseItem
+            key={item.houseCode}
+            src={`http://localhost:8080${item.houseImg}`}
+            title={item.title}
+            desc={item.desc}
+            tags={item.tags}
+            price={item.price}
+            onClick={() => console.log('点击房源！')}
+        />;
+    }
+
+
 
     render() {
         return (
@@ -69,6 +95,20 @@ export default class HouseList extends Component {
                     <div className={styles.content}>
                         {/* 标题栏 */}
                         <Filter onFilter={this.onFilter} />
+
+                        <div className={styles.houseItems}>
+                            <List
+                                width={500}
+                                height={300}
+                                rowCount={this.state.count}
+                                rowHeight={120}
+                                rowRenderer={this.rowRenderer}
+                            // onRowsRendered={this.onRowsRendered}
+                            // ref={this.listRef}
+                            // scrollToAlignment={'start'}
+                            />
+                        </div>
+
 
                         {/* 前三个菜单对应的内容： */}
                         {/* <FilterPicker /> */}
